@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Experiment {
+  id             Int                  @id @default(autoincrement())
+  name           String
+  systemPrompt   String
+  llmModel       String
+  testCases      ExperimentTestCase[]
+  experimentRuns ExperimentRun[]
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+}
+
+model TestCase {
+  id             Int                  @id @default(autoincrement())
+  userMessage    String
+  expectedOutput String
+  experiments    ExperimentTestCase[]
+  testResults    TestResult[]
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+}
+
+model ExperimentTestCase {
+  id           Int        @id @default(autoincrement())
+  experiment   Experiment @relation(fields: [experimentId], references: [id])
+  experimentId Int
+  testCase     TestCase   @relation(fields: [testCaseId], references: [id])
+  testCaseId   Int
+}
+
+model ExperimentRun {
+  id             Int          @id @default(autoincrement())
+  experiment     Experiment   @relation(fields: [experimentId], references: [id])
+  experimentId   Int
+  llmModel       String
+  testResults    TestResult[]
+  runDate        DateTime     @default(now())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model TestResult {
+  id              Int           @id @default(autoincrement())
+  experimentRun   ExperimentRun @relation(fields: [experimentRunId], references: [id])
+  experimentRunId Int
+  testCase        TestCase      @relation(fields: [testCaseId], references: [id])
+  testCaseId      Int
+  actualOutput    String?
+  score           Float?
+  responseTime    Int?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}

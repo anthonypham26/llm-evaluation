@@ -1,0 +1,19 @@
+// {
+//   "compilerOptions": {
+//     "sourceMap": true,
+//     "outDir": "dist",
+//     "strict": true,
+//     "lib": ["esnext"],
+//     "esModuleInterop": true
+//   }
+// }
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
