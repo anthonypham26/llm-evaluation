@@ -1,7 +1,6 @@
 // index.ts
 import { PrismaClient } from '@prisma/client';
 import express from 'express';
-import { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import Groq from 'groq-sdk';
 
